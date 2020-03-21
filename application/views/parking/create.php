@@ -42,6 +42,15 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
+                  <label for="group_name">License Plate</label>
+                  <select class="form-control" id="license_plate" name="license_plate">
+                    <option value="">~~Select~~</option>
+                    <?php foreach ($client_data as $k => $v): ?>
+                        <option value="<?php echo $v['client_license_plate'] ?>"><?php echo $v['client_license_plate']."-".$v['client_name']; ?></option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label for="group_name">Slot</label>
                   <select class="form-control" id="parking_slot" name="parking_slot">
                     <option value="">~~Select~~</option>
@@ -94,6 +103,7 @@
       $("#createParkingSideTree").addClass('active');
 
       $('#parking_slot').select2();
+      $('#license_plate').select2();
 
       $("#vehicle_cat").on('change', function() {
         var value = $(this).val();

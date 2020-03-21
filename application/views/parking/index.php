@@ -47,6 +47,7 @@
                 <thead>
                 <tr>
                   <th>Parking code</th>
+                  <th>License Plate</th>
                   <th>Check-in</th>
                   <th>Check-out</th>
                   <th>Vechile type</th>
@@ -66,6 +67,7 @@
                     ?>
                     <tr>
                       <td><?php echo $v['parking']['parking_code']; ?></td>
+                      <td><?php echo $v['parking']['license_plate']; ?></td>
                       <td><?php
                       // date_default_timezone_set("Asia/Kathmandu");
                        $date=date('Y-m-d', $v['parking']['in_time']);

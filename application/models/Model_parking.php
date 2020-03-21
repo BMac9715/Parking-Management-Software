@@ -8,6 +8,7 @@ class Model_parking extends CI_Model
 
 		$this->load->model('model_rates');
 		$this->load->model('model_slots');
+		$this->load->model('model_clients');
 	}
 
 	public function getParkingData($id = null)
@@ -15,6 +16,19 @@ class Model_parking extends CI_Model
 		if($id) {
 			$sql = "SELECT * FROM parking WHERE id = ?";
 			$query = $this->db->query($sql, array($id));
+			return $query->row_array();
+		}
+
+		$sql = "SELECT * FROM parking ORDER BY id DESC";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function getParkingDataByLicensePlate($license_plate = null)
+	{
+		if($license_plate) {
+			$sql = "SELECT * FROM parking WHERE license_plate = ?";
+			$query = $this->db->query($sql, array($license_plate));
 			return $query->row_array();
 		}
 
@@ -60,6 +74,7 @@ class Model_parking extends CI_Model
 				$check_in_time = $data['in_time'];
 				$rate_id = $data['rate_id'];
 				$slot_id = $data['slot_id'];
+				$license_plate = $data['license_plate'];
 
 				$checkout_time = strtotime('now');
 
@@ -94,12 +109,17 @@ class Model_parking extends CI_Model
 						'availability_status' => 1
 					); 
 					$update_slot_ops = $this->model_slots->updateSlotAvailability($slot_update_data, $slot_id);
+
+					$client_update_data = array(
+						'availability_status' => 1
+					); 
+					$update_client_ops = $this->model_clients->updateClientAvailability($client_update_data, $license_plate);
 				}
 				else {
 					return false;
 				}
 
-				return ($update_ops == true && $update_slot_ops == true) ? true : false;
+				return ($update_ops == true && $update_slot_ops == true && $update_client_ops == true) ? true : false;
 
 			} // /elseif
 			else {
