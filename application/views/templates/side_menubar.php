@@ -133,6 +133,26 @@
         </li>
       <?php endif; ?>
 
+      <?php if(in_array('createClients', $user_permission) || in_array('updateClients', $user_permission) || in_array('viewClients', $user_permission) || in_array('deleteClients', $user_permission)): ?>
+        <li class="treeview" id="parkingSideTree">
+          <a href="#">
+            <i class="fa fa-male"></i>
+            <span>Clients</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <?php if(in_array('createClients', $user_permission)): ?>
+              <li id="createClientsSideTree"><a href="<?php echo base_url('clients/create') ?>"><i class="fa fa-circle-o"></i> Add Clients</a></li>
+            <?php endif; ?>
+            <?php if(in_array('updateClients', $user_permission) || in_array('viewClients', $user_permission) || in_array('deleteClients', $user_permission)): ?>
+              <li id="manageClientsSideTree"><a href="<?php echo base_url('clients') ?>"><i class="fa fa-circle-o"></i> Manage Clients</a></li>
+            <?php endif; ?>
+          </ul>
+        </li>
+      <?php endif; ?>
+
       <?php if(in_array('viewReports', $user_permission)): ?>
         <li id="reportSideTree"><a href="<?php echo base_url('reports/') ?>"><i class="glyphicon glyphicon-stats"></i> <span>Reports</span></a></li>
       <?php endif; ?> 

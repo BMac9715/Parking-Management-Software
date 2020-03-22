@@ -15,31 +15,46 @@ class Parking extends Admin_Controller
 		$this->load->model('model_parking');
 		$this->load->model('model_category');
 		$this->load->model('model_slots');
+		$this->load->model('model_clients');
 		$this->load->model('model_rates');
 		$this->load->model('model_company');
 	}
 
-	public function index()
+	public function index($license_plate = null)
 	{
 
 		if(!in_array('viewParking', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
-
-		$parking_data = $this->model_parking->getParkingData();
-	
+		
+		$parking_data = $this->model_parking->getParkingDataByLicensePlate($license_plate);
+		
 		$result = array();
-		foreach ($parking_data as $k => $v) {
-			$result[$k]['parking'] = $v;
-			$category_data = $this->model_category->getCategoryData($v['vechile_cat_id']);
-			$slot_data = $this->model_slots->getSlotData($v['slot_id']);
-			$rate_data = $this->model_rates->getRateData($v['rate_id']);
-
-			$result[$k]['category'] = $category_data;
-			$result[$k]['slot'] = $slot_data;
-			$result[$k]['rate'] = $rate_data;
+		if(!empty($parking_data)){
+			foreach ($parking_data as $k => $v) {
+				$flag = false;
+				if(!is_array($v)){
+					$v = $parking_data;
+					$flag = true;
+				}
+			
+				$result[$k]['parking'] = $v;
+				$category_data = $this->model_category->getCategoryData($v['vechile_cat_id']);
+				$slot_data = $this->model_slots->getSlotData($v['slot_id']);
+				$client_data = $this->model_clients->getClientDataByLicensePlate($v['license_plate']);
+				$rate_data = $this->model_rates->getRateData($v['rate_id']);
+	
+				$result[$k]['category'] = $category_data;
+				$result[$k]['slot'] = $slot_data;
+				$result[$k]['client'] = $client_data;
+				$result[$k]['rate'] = $rate_data;
+	
+				if($flag){
+					break;
+				}
+			}
 		}
-
+		
 		$this->data['company_currency'] = $this->company_currency();
 		$this->data['parking_data'] = $result;
 		$this->render_template('parking/index', $this->data);
@@ -52,6 +67,7 @@ class Parking extends Admin_Controller
 			redirect('dashboard', 'refresh');
 		}
 
+		$this->form_validation->set_rules('license_plate', 'License Plate', 'required');
 		$this->form_validation->set_rules('parking_slot', 'Slot', 'required');
 		$this->form_validation->set_rules('vehicle_cat', 'Category', 'required');
 		$this->form_validation->set_rules('vehicle_rate', 'Rate', 'required');
@@ -62,7 +78,8 @@ class Parking extends Admin_Controller
         	$parking_code = strtoupper('pa-'.substr(md5(uniqid(mt_rand(), true)), 0, 6));
 
         	$data = array(
-        		'parking_code' => $parking_code,
+				'parking_code' => $parking_code,
+				'license_plate' => $this->input->post('license_plate'),
         		'vechile_cat_id' => $this->input->post('vehicle_cat'),
         		'rate_id' => $this->input->post('vehicle_rate'),
         		'slot_id' => $this->input->post('parking_slot'),
@@ -77,10 +94,15 @@ class Parking extends Admin_Controller
         		$slot_data = array(
         			'availability_status' => 2
         		);
+				$update_slot = $this->model_slots->updateSlotAvailability($slot_data, $this->input->post('parking_slot'));
+				
+				//
+				$client_data = array(
+        			'availability_status' => 2
+        		);
+        		$update_client = $this->model_clients->updateClientAvailability($client_data, $this->input->post('license_plate'));
 
-        		$update_slot = $this->model_slots->updateSlotAvailability($slot_data, $this->input->post('parking_slot'));
-
-        		if($create == true && $update_slot == true) {
+        		if($create == true && $update_slot == true && $update_client == true) {
         			$this->session->set_flashdata('success', 'Successfully created');
 		    		redirect('parking/', 'refresh');	
         		}
@@ -101,7 +123,10 @@ class Parking extends Admin_Controller
         	$this->data['vehicle_cat'] = $vehicle_cat;
 
         	$slots = $this->model_slots->getAvailableSlotData();
-        	$this->data['slot_data'] = $slots;
+			$this->data['slot_data'] = $slots;
+			
+			$clients = $this->model_clients->getAvailableClientData();
+        	$this->data['client_data'] = $clients;
 
 			$this->render_template('parking/create', $this->data);
 		}
@@ -114,6 +139,7 @@ class Parking extends Admin_Controller
 		}
 
 		if($id) {
+			$this->form_validation->set_rules('license_plate', 'License Plate', 'required');
 			$this->form_validation->set_rules('parking_slot', 'Slot', 'required');
 			$this->form_validation->set_rules('vehicle_cat', 'Category', 'required');
 			$this->form_validation->set_rules('vehicle_rate', 'Rate', 'required');
@@ -132,7 +158,8 @@ class Parking extends Admin_Controller
 	        	$data = array(
 	        		'vechile_cat_id' => $this->input->post('vehicle_cat'),
 	        		'rate_id' => $this->input->post('vehicle_rate'),
-	        		'slot_id' => $this->input->post('parking_slot'),
+					'slot_id' => $this->input->post('parking_slot'),
+					'license_plate' => $this->input->post('license_plate'),
 	        	);
 
 	        	$update_parking_data = $this->model_parking->edit($data, $id);
@@ -142,10 +169,14 @@ class Parking extends Admin_Controller
 	        		$slot_data = array(
 	        			'availability_status' => 2
 	        		);
+					$update_slot = $this->model_slots->updateSlotAvailability($slot_data, $this->input->post('parking_slot'));
+					
+					$client_data = array(
+	        			'availability_status' => 2
+	        		);
+	        		$update_client = $this->model_clients->updateClientAvailability($client_data, $this->input->post('license_plate'));
 
-	        		$update_slot = $this->model_slots->updateSlotAvailability($slot_data, $this->input->post('parking_slot'));
-
-	        		if($update_parking_data == true && $update_slot == true) {
+	        		if($update_parking_data == true && $update_slot == true && $update_client == true) {
 	        			$this->session->set_flashdata('success', 'Successfully created');
 			    		redirect('parking/', 'refresh');	
 	        		}
@@ -165,10 +196,13 @@ class Parking extends Admin_Controller
 	        	$this->data['vehicle_cat'] = $vehicle_cat;
 
 	        	$slots = $this->model_slots->getAvailableSlotData();
-	        	$this->data['slot_data'] = $slots;
+				$this->data['slot_data'] = $slots;
 
 	        	$save_parking_data = $this->model_parking->getParkingData($id);
-	        	$this->data['save_parking_data'] = $save_parking_data;
+				$this->data['save_parking_data'] = $save_parking_data;
+				
+				$clients = $this->model_clients->getClientDataByLicensePlate($save_parking_data['license_plate']);
+        		$this->data['client_data'] = $clients;
 
 	        	// used parking slot info
 	        	$get_used_slot = $this->model_slots->getSlotData($save_parking_data['slot_id']);
@@ -267,6 +301,9 @@ class Parking extends Admin_Controller
 								</tr>
 								<tr>
 									<td>Parking no: '.$parking_data['parking_code'].' </td>
+								</tr>
+								<tr>
+									<td>License Plate: '.$parking_data['license_plate'].' </td>
 								</tr>
 							</table>
 

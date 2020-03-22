@@ -199,6 +199,29 @@
                          ?>></td>
                       </tr>
                       <tr>
+                        <td>Clients</td>
+                        <td><input type="checkbox" name="permission[]" id="permission" value="createClients" <?php 
+                        if($serialize_permission) {
+                          if(in_array('createClients', $serialize_permission)) { echo "checked"; }  
+                        }
+                         ?>></td>
+                        <td><input type="checkbox" name="permission[]" id="permission" value="updateClients" <?php 
+                        if($serialize_permission) {
+                          if(in_array('updateClients', $serialize_permission)) { echo "checked"; }  
+                        }
+                         ?>></td>
+                        <td><input type="checkbox" name="permission[]" id="permission" value="viewClients" <?php 
+                        if($serialize_permission) {
+                          if(in_array('viewClients', $serialize_permission)) { echo "checked"; }  
+                        }
+                         ?>></td>
+                        <td><input type="checkbox" name="permission[]" id="permission" value="deleteClients" <?php 
+                        if($serialize_permission) {
+                          if(in_array('deleteClients', $serialize_permission)) { echo "checked"; }  
+                        }
+                         ?>></td>
+                      </tr>
+                      <tr>
                         <td>Company</td>
                         <td> - </td>
                         <td><input type="checkbox" name="permission[]" id="permission" value="updateCompany" <?php 

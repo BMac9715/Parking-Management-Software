@@ -42,6 +42,11 @@
                 <?php echo validation_errors(); ?>
 
                 <div class="form-group">
+                  <label for="group_name">License Plate</label>
+                  <input type="hidden" id="license_plate" name="license_plate" value=<?php echo $client_data['client_license_plate']?>>
+                    <h3 class="box-title"><?php echo $client_data['client_license_plate']." - ".$client_data['client_name']; ?></h3>
+                </div>
+                <div class="form-group">
                   <label for="group_name">Slot</label>
                   <select class="form-control" id="parking_slot" name="parking_slot">
                     <option value="">~~Select~~</option>
