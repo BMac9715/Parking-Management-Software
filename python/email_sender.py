@@ -30,8 +30,8 @@ Friendly reminder to pay your parking bill."""
 
             datetime_object = datetime.now()
             for row in records:
-                #if(datetime_object.day == row[5].day):
-                if(True):
+                if(datetime_object.day == row[5].day):
+                #if(True):
                     server.sendmail(sender_email, row[6], message)
 
     except Error as e:
