@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/Ionicons/css/ionicons.min.css') ?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css') ?>">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/Login_RedDevs.css') ?>">
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/square/blue.css') ?>">
 
@@ -31,49 +33,57 @@
 
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="<?php echo base_url('auth'); ?>"><b>Login</b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
 
-    <?php echo validation_errors(); ?>  
-
-    <?php if(!empty($errors)) {
-      echo $errors;
-    } ?>
-
-    <form action="<?php echo base_url('auth/login') ?>" method="post">
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" />
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> Remember Me
-            </label>
-          </div>
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
-
-  </div>
-  <!-- /.login-box-body -->
+<div class="sidenav">
 </div>
-<!-- /.login-box -->
+
+<div class="main">
+  <div class="col-md-6 col-sm-12">
+    <div class="login-box">
+      <div class="login-logo">
+        <a><b>Parking Management System</b></a>
+      </div>
+      <!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        <?php echo validation_errors(); ?>  
+
+        <?php if(!empty($errors)) {
+          echo $errors;
+        } ?>
+
+        <form action="<?php echo base_url('auth/login') ?>" method="post">
+          <div class="form-group has-feedback">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" />
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+              <div class="checkbox icheck">
+                <label>
+                  <input type="checkbox"> Remember Me
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+      </div>
+      <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box -->
+  </div>
+</div>
 
 <!-- jQuery 3 -->
 
