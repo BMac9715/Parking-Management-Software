@@ -69,6 +69,13 @@ class Model_Clients extends CI_Model
 		return $query->result_array();
 	}
 
+	public function getAvailableClientMails()
+	{
+		$sql = "SELECT client_email FROM clients WHERE availability_status = ? AND active = ?";
+		$query = $this->db->query($sql, array(1, 1));
+		return $query->result_array();
+	}
+
 	public function countTotalClients()
 	{
 		$sql = "SELECT * FROM clients";
