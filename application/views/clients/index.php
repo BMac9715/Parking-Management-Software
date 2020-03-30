@@ -36,6 +36,10 @@
             <a href="<?php echo base_url('clients/create') ?>" class="btn btn-primary"> <i class="fa fa-plus"></i> Add Client</a>
             <br /> <br />
           <?php endif; ?>
+          <?php if(in_array('viewClients', $user_permission)): ?>
+            <a href="<?php echo base_url('clients/sendmailall') ?>" class="btn btn-primary"> <i class="fa fa-envelope"></i>   Send Broadcast Mail</a>
+            <br /> <br />
+          <?php endif; ?>
 
           <div class="box">
             <div class="box-header">
@@ -85,6 +89,7 @@
                       <td>
                         <?php if(in_array('viewClients', $user_permission)): ?>
                           <a href="<?php echo base_url('parking/index/'.$v['client_license_plate']) ?>" class="btn btn-default"><i class="fa fa-car"></i></a>
+                          <a href="<?php echo base_url('clients/sendmail/'.$v['client_email']) ?>" class="btn btn-default"><i class="fa fa-envelope"></i></a>
                         <?php endif; ?>
                         <?php if(in_array('updateClients', $user_permission)): ?>
                           <a href="<?php echo base_url('clients/edit/'.$v['id']) ?>" class="btn btn-default"><i class="fa fa-pencil"></i></a>
