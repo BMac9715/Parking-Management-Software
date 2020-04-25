@@ -166,6 +166,7 @@
       <?php if(in_array('updateSetting', $user_permission)): ?>
         <li id="settingSideTree"><a href="<?php echo base_url('users/setting/') ?>"><i class="fa fa-wrench"></i> <span>Setting</span></a></li>
       <?php endif; ?>
+        <li><a href="http://35.153.107.1/itop/pages/UI.php"><i class="glyphicon glyphicon-headphones"></i> <span>Help Desk</span></a></li>
         <li><a href="<?php echo base_url('auth/logout') ?>"><i class="glyphicon glyphicon-log-out"></i> <span>Logout</span></a></li>
 
       </ul>
