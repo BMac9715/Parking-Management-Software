@@ -1,0 +1,39 @@
+.main-head{
+    height: 150px;
+    background: #FFF;
+}
+
+.sidenav {
+    height: 100%;
+    background-color: #222d32;
+    background-image: url("/assets/dist/img/parking-background.jpg");
+    background-size: cover;
+    opacity: 0.8;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+
+.main {
+    height: 100%;
+    padding: 10% 17%;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .main { padding: 5% 5%; }
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+}
