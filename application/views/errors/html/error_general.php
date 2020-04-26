@@ -1,64 +1,49 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>Error</title>
-<style type="text/css">
-
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
-
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
-
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
-
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
-
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
-
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
-
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
+    <meta charset="utf-8" />
+    <title>Unexpected Error</title>
+	<link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,300,400" rel="stylesheet">
+	<link href="/assets/dist/css/error_general.css" rel="stylesheet" type="text/css"/>
+	<link href="/assets/dist/css/error_style.css" rel="stylesheet" type="text/css" media="screen, projection" />
 </head>
-<body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+
+<body class="loading">
+<div class="error-502__container">
+	<div class="error-502">
+		<div class="error-502__text">
+			<h1>Unexpected Error <b>:(</b></h1>
+			<h2><p>You can go back to our <a href="/">Homepage</a>.</p></h2>
+		</div>
 	</div>
+</div>
+<div class="gears">
+    <div class="gear one">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <div class="gear two">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <div class="gear three">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="js/main.js" type="text/javascript"></script>
+<script>
+    $(function() {
+        setTimeout(function(){
+            $('body').removeClass('loading');
+        }, 1000);
+    });
+</script>
 </body>
 </html>
+

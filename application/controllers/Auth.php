@@ -69,4 +69,75 @@ class Auth extends Admin_Controller
 		redirect('auth/login', 'refresh');
 	}
 
+	/* Open view to recovery password */
+	public function forgot_pass(){
+		$this->load->view('forgot_password');
+	}
+
+	public function backlogin(){
+		$this->load->view('login');
+	}
+
+	public function reset_password(){
+		if(isset($_POST['email']) && !empty($_POST['email'])){
+			
+			$this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[6]|max_length[50]|valid_email');
+		
+			if($this->form_validation->run() == FALSE){
+				$this->data['errors'] = 'Email does not valid.';
+				$this->load->view('forgot_password', $this->data);
+			}
+			else{
+				$email = trim($this->input->post('email'));
+				$result = $this->model_auth->check_email($email);
+
+				if($result){
+					$firstname = $this->model_auth->get_first_name_user($email);
+					$this->model_auth->send_reset_password_email($email, $firstname);
+					$this->load->view('reset_password_email_sent');
+				}
+				else{
+					//Email not found in database
+					$this->data['errors'] = 'Email does not exists';
+					$this->load->view('forgot_password', $this->data);
+				}
+			}
+		
+		}
+		else{
+			//Email its empty
+			$this->data['errors'] = 'Email field does not can be empty.';
+			$this->load->view('forgot_password', $this->data);
+		}
+	}
+
+	public function reset_password_form($email, $email_code){
+		if(isset($email, $email_code)){
+			$email = trim($email);
+			$email_hash = sha1($email, $email_code);
+			$verified = $this->model_auth->verify_reset_password_code($email, $email_code);
+
+			if($verified){
+				$this->load->view('reset_password', array('email_hash'=> $email_hash, 'email_code' => $email_code, 'email'=> $email));
+			}
+			else{
+				//error
+				$this->load->view('errors/html/error_404');
+				/*
+				$this->load->view('errors/html/error_general');
+				print("Se queda aqui we :(");*/
+			}
+		}
+	}
+
+	public function update_password(){
+
+		$this->form_validation->set_rules('email_hash','Email Hash', 'trim|required');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[50]|matches[password_conf]|xss_clean');
+		$this->form_validation->set_rules('password_conf', 'Confirmed Password', 'trim|required|min_length[6]|max_length[50]|xss_clean');
+
+		$this->load->view('login', array('errors'=> 'Password successful update.'));
+
+	}
 }
