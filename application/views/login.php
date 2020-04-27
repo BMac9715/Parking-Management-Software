@@ -72,15 +72,9 @@
             </div>
             <!-- /.col -->
             <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
             </div>
             <!-- /.col -->
-          </div>
-
-          <div class="row" style="text-align: center;">
-              <div class="col-xs-12">
-                <a href ="<?php echo base_url('auth/forgot_pass') ?>">Forgot your password?</a>
-              </div>
           </div>
         </form>
 
